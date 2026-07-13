@@ -60,7 +60,6 @@
       <div class="nav-section">Configurações</div>
       <a class="nav-item" onclick="navigate('portal-settings')"><span class="nav-icon">🎨</span> Portal Wi-Fi</a>
       <a class="nav-item" onclick="navigate('mikrotik-settings')"><span class="nav-icon">🔧</span> MikroTik</a>
-      <a class="nav-item" onclick="navigate('zenvia-settings')"><span class="nav-icon">💬</span> Zenvia SMS</a>
       <a class="nav-item" onclick="navigate('account-settings')"><span class="nav-icon">🔐</span> Minha Conta</a>
     </nav>
     <div class="sidebar-footer">
@@ -200,15 +199,9 @@
                 <label class="form-label">Subtítulo</label>
                 <input type="text" class="form-control" id="setting-hotspot_subtitle">
               </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Tempo de acesso grátis (minutos)</label>
-                  <input type="number" class="form-control" id="setting-hotspot_free_time" min="1" max="1440">
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Validade do código OTP (minutos)</label>
-                  <input type="number" class="form-control" id="setting-otp_expiry_minutes" min="1" max="30">
-                </div>
+              <div class="form-group">
+                <label class="form-label">Tempo de acesso grátis (minutos)</label>
+                <input type="number" class="form-control" id="setting-hotspot_free_time" min="1" max="1440">
               </div>
               <div class="form-row">
                 <div class="form-group">
@@ -226,7 +219,7 @@
                   </select>
                 </div>
               </div>
-              <button class="btn btn-primary" onclick="saveSettings('portal-settings', ['hotspot_title','hotspot_subtitle','hotspot_free_time','otp_expiry_minutes','require_name','require_email'])">
+              <button class="btn btn-primary" onclick="saveSettings('portal-settings', ['hotspot_title','hotspot_subtitle','hotspot_free_time','require_name','require_email'])">
                 💾 Salvar Configurações
               </button>
             </form>
@@ -287,29 +280,6 @@
               <strong>4. Login Page:</strong> Server Profiles → Login Page:<br>
               <code style="background:#f0f3f7;padding:4px 8px;border-radius:4px;font-size:12px;">http://[SEU_SERVIDOR]:3000/?mac=$(mac)&amp;ip=$(ip)&amp;dst=$(link-orig)</code>
             </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- ZENVIA -->
-      <div id="page-zenvia-settings" class="page">
-        <div class="card">
-          <div class="card-header"><h3>💬 Configurações Zenvia SMS</h3></div>
-          <div class="card-body">
-            <div id="zenvia-alert"></div>
-            <form onsubmit="return false;">
-              <div class="form-group">
-                <label class="form-label">Token de API Zenvia</label>
-                <input type="text" class="form-control" id="setting-zenvia_token" placeholder="Seu token da API Zenvia">
-                <span class="form-hint">app.zenvia.com → API → Tokens</span>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Remetente (From)</label>
-                <input type="text" class="form-control" id="setting-zenvia_from" placeholder="VirgemLapa" maxlength="11">
-                <span class="form-hint">Máx. 11 chars, sem espaços</span>
-              </div>
-              <button class="btn btn-primary" onclick="saveSettings('zenvia', ['zenvia_token','zenvia_from'])">💾 Salvar</button>
-            </form>
           </div>
         </div>
       </div>

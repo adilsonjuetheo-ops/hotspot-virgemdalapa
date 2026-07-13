@@ -56,7 +56,6 @@ const PAGE_TITLES = {
   'sessions': 'Sessões',
   'portal-settings': 'Portal Wi-Fi',
   'mikrotik-settings': 'MikroTik',
-  'zenvia-settings': 'Zenvia SMS',
   'account-settings': 'Minha Conta'
 };
 
@@ -110,8 +109,8 @@ function renderChart(dailyData) {
       datasets: [{
         label: 'Leads',
         data: values,
-        backgroundColor: 'rgba(59,130,246,0.15)',
-        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(47,158,92,0.15)',
+        borderColor: '#2f9e5c',
         borderWidth: 2,
         borderRadius: 6,
         borderSkipped: false
@@ -369,8 +368,8 @@ async function demoResponse(url) {
   };
   if (url.includes('/settings')) return {
     hotspot_title:'Wi-Fi Grátis Prefeitura de Virgem da Lapa', hotspot_subtitle:'Conecte-se e aproveite a internet pública da Prefeitura!',
-    hotspot_free_time:'60', otp_expiry_minutes:'5', require_name:'1', require_email:'0',
-    zenvia_from:'VirgemLapa', mikrotik_host:'192.168.88.1', mikrotik_port:'8728',
+    hotspot_free_time:'60', require_name:'1', require_email:'0',
+    mikrotik_host:'192.168.88.1', mikrotik_port:'8728',
     mikrotik_user:'admin', mikrotik_hotspot_server:'hotspot1'
   };
   if (url.includes('/mikrotik/test')) return { success: true, identity: 'VIRGEMLAPA-RB' };

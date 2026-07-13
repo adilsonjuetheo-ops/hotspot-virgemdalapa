@@ -19,12 +19,13 @@
       </div>
 
       <div class="card-body">
+        <!-- Steps indicator -->
         <div class="steps">
           <div class="step-dot active" id="dot1"></div>
           <div class="step-dot" id="dot2"></div>
-          <div class="step-dot" id="dot3"></div>
         </div>
 
+        <!-- Alert area -->
         <div id="alert-area"></div>
 
         <!-- STEP 1: Dados do usuário -->
@@ -39,7 +40,7 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label">Celular (WhatsApp)</label>
+              <label class="form-label">Celular</label>
               <div class="phone-wrapper">
                 <span class="phone-prefix">🇧🇷 +55</span>
                 <input type="tel" id="input-phone" placeholder="(38) 99999-9999"
@@ -52,44 +53,19 @@
               <input type="email" id="input-email" class="form-control" placeholder="seu@email.com" autocomplete="email">
             </div>
 
-            <button type="submit" class="btn btn-primary" id="btn-send-otp" onclick="sendOTP()">
-              Receber código por SMS
+            <label class="terms-check">
+              <input type="checkbox" id="input-terms">
+              <span>Li e aceito os <a href="#" onclick="openTerms(); return false;">Termos de Uso e Privacidade</a>.</span>
+            </label>
+
+            <button type="submit" class="btn btn-primary" id="btn-connect" onclick="connectWifi()">
+              Conectar ao Wi-Fi
             </button>
           </form>
         </div>
 
-        <!-- STEP 2: Verificação OTP -->
+        <!-- STEP 2: Sucesso -->
         <div id="step-2" class="hidden">
-          <h2 class="card-title">Confirme seu número</h2>
-          <p class="card-subtitle">Digite o código de 6 dígitos enviado para <strong id="phone-display"></strong></p>
-
-          <form id="form-otp" onsubmit="return false;">
-            <div class="form-group">
-              <div class="otp-inputs">
-                <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
-                <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
-                <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
-                <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
-                <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
-                <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
-              </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary" id="btn-verify" onclick="verifyOTP()">
-              Confirmar e Conectar
-            </button>
-
-            <div class="resend-timer">
-              <span id="resend-text">Reenviar código em <span id="countdown">60</span>s</span>
-              <button class="resend-btn" id="resend-btn" disabled onclick="resendOTP()">Reenviar SMS</button>
-            </div>
-
-            <button class="btn btn-outline" onclick="goBack()">← Voltar</button>
-          </form>
-        </div>
-
-        <!-- STEP 3: Sucesso -->
-        <div id="step-3" class="hidden">
           <div class="success-icon">✅</div>
           <h2 class="card-title">Conectado com sucesso!</h2>
           <p class="card-subtitle">Bem-vindo ao Wi-Fi público da Prefeitura de Virgem da Lapa. Aproveite a internet!</p>
@@ -120,9 +96,32 @@
 
       <div class="card-footer">
         <p class="footer-text">
-          Ao se conectar, você concorda com nossos <a href="#">Termos de Uso</a>.<br>
+          Ao se conectar, você concorda com nossos <a href="#" onclick="openTerms(); return false;">Termos de Uso</a>.<br>
           Prefeitura de Virgem da Lapa &bull; Wi-Fi Público Gratuito
         </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Termos de Uso e Privacidade -->
+  <div id="terms-modal" class="modal-overlay hidden" onclick="if(event.target===this)closeTerms()">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Termos de Uso e Privacidade</h3>
+        <button class="modal-close" onclick="closeTerms()" aria-label="Fechar">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p><strong>1. O serviço.</strong> O Wi-Fi gratuito é oferecido pela <strong>Prefeitura Municipal de Virgem da Lapa</strong> como serviço público, sem garantia de velocidade, estabilidade ou disponibilidade contínua. O acesso é liberado por tempo limitado e pode ser encerrado ou alterado a qualquer momento.</p>
+        <p><strong>2. Dados coletados.</strong> Para liberar o acesso, coletamos: nome (quando informado), número de celular, e-mail (quando informado), endereço MAC do aparelho, endereço IP e horários de conexão.</p>
+        <p><strong>3. Finalidade (LGPD).</strong> Esses dados são usados para: (a) identificar o usuário e liberar o acesso à rede; (b) segurança e registro das conexões, conforme o Marco Civil da Internet (Lei 12.965/2014); e (c) eventual envio de avisos e comunicados de utilidade pública da Prefeitura.</p>
+        <p><strong>4. Compartilhamento.</strong> Seus dados não são vendidos nem compartilhados com terceiros, exceto por obrigação legal ou ordem judicial.</p>
+        <p><strong>5. Guarda e exclusão.</strong> Os registros de conexão são guardados pelo prazo legal mínimo. Você pode solicitar a exclusão dos seus dados de contato a qualquer momento pelos canais oficiais de atendimento da Prefeitura de Virgem da Lapa.</p>
+        <p><strong>6. Seus direitos.</strong> Nos termos da Lei Geral de Proteção de Dados (Lei 13.709/2018), você pode solicitar acesso, correção ou exclusão dos seus dados pelo mesmo canal acima.</p>
+        <p><strong>7. Uso responsável.</strong> É proibido usar a rede para atividades ilegais, acesso a conteúdo ilícito ou tentativas de invasão. O usuário é responsável pelo uso que fizer da conexão.</p>
+        <p class="terms-updated">Prefeitura de Virgem da Lapa • Última atualização: julho de 2026</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="closeTerms()">Entendi</button>
       </div>
     </div>
   </div>
