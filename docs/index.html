@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wi-Fi Grátis — Prefeitura de Virgem da Lapa</title>
+  <link rel="stylesheet" href="hotspot/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <div class="logo-area">
+          <div class="logo-box">
+            <img src="hotspot/img/logo.png" alt="Prefeitura de Virgem da Lapa" class="brand-logo">
+          </div>
+          <div class="logo-slogan">Conectando Virgem da Lapa à internet!</div>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="steps">
+          <div class="step-dot active" id="dot1"></div>
+          <div class="step-dot" id="dot2"></div>
+          <div class="step-dot" id="dot3"></div>
+        </div>
+
+        <div id="alert-area"></div>
+
+        <!-- STEP 1: Dados do usuário -->
+        <div id="step-1">
+          <h2 class="card-title" id="page-title">Acesse o Wi-Fi Grátis</h2>
+          <p class="card-subtitle" id="page-subtitle">Conecte-se agora e aproveite a internet pública da Prefeitura!</p>
+
+          <form id="form-step1" onsubmit="return false;">
+            <div class="form-group" id="name-group">
+              <label class="form-label">Seu nome</label>
+              <input type="text" id="input-name" class="form-control" placeholder="Ex: João Silva" autocomplete="name">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Celular (WhatsApp)</label>
+              <div class="phone-wrapper">
+                <span class="phone-prefix">🇧🇷 +55</span>
+                <input type="tel" id="input-phone" placeholder="(38) 99999-9999"
+                  inputmode="numeric" autocomplete="tel" maxlength="15">
+              </div>
+            </div>
+
+            <div class="form-group hidden" id="email-group">
+              <label class="form-label">E-mail (opcional)</label>
+              <input type="email" id="input-email" class="form-control" placeholder="seu@email.com" autocomplete="email">
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="btn-send-otp" onclick="sendOTP()">
+              Receber código por SMS
+            </button>
+          </form>
+        </div>
+
+        <!-- STEP 2: Verificação OTP -->
+        <div id="step-2" class="hidden">
+          <h2 class="card-title">Confirme seu número</h2>
+          <p class="card-subtitle">Digite o código de 6 dígitos enviado para <strong id="phone-display"></strong></p>
+
+          <form id="form-otp" onsubmit="return false;">
+            <div class="form-group">
+              <div class="otp-inputs">
+                <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
+                <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
+                <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
+                <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
+                <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
+                <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="btn-verify" onclick="verifyOTP()">
+              Confirmar e Conectar
+            </button>
+
+            <div class="resend-timer">
+              <span id="resend-text">Reenviar código em <span id="countdown">60</span>s</span>
+              <button class="resend-btn" id="resend-btn" disabled onclick="resendOTP()">Reenviar SMS</button>
+            </div>
+
+            <button class="btn btn-outline" onclick="goBack()">← Voltar</button>
+          </form>
+        </div>
+
+        <!-- STEP 3: Sucesso -->
+        <div id="step-3" class="hidden">
+          <div class="success-icon">✅</div>
+          <h2 class="card-title">Conectado com sucesso!</h2>
+          <p class="card-subtitle">Bem-vindo ao Wi-Fi público da Prefeitura de Virgem da Lapa. Aproveite a internet!</p>
+
+          <div class="access-info">
+            <span class="time-badge" id="free-time-display">60</span>
+            <span class="time-label">minutos de acesso grátis</span>
+          </div>
+
+          <div id="credentials-area" class="credentials hidden">
+            <h4>Dados de acesso (se solicitado)</h4>
+            <div class="cred-row">
+              <span class="cred-label">Usuário</span>
+              <span class="cred-value" id="cred-user">—</span>
+            </div>
+            <div class="cred-row">
+              <span class="cred-label">Senha</span>
+              <span class="cred-value" id="cred-pass">—</span>
+            </div>
+          </div>
+
+          <a href="https://www.instagram.com/prefeituradevirgemdalapa/" target="_blank" rel="noopener" class="btn btn-primary" style="margin-top:20px;">
+            📷 Seguir no Instagram
+          </a>
+          <p class="footer-text" style="margin-top:10px;">Você será redirecionado ao nosso Instagram em instantes...</p>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <p class="footer-text">
+          Ao se conectar, você concorda com nossos <a href="#">Termos de Uso</a>.<br>
+          Prefeitura de Virgem da Lapa &bull; Wi-Fi Público Gratuito
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="hotspot/js/main.js"></script>
+</body>
+</html>

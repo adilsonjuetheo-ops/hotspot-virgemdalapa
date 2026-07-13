@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Admin — Prefeitura de Virgem da Lapa Hotspot</title>
+  <link rel="stylesheet" href="css/admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-page" class="login-page">
+  <div class="login-card">
+    <div class="login-logo">
+      <div style="background:#fff;border-radius:20px;padding:14px 24px 10px;display:inline-block;box-shadow:0 6px 24px rgba(0,0,0,0.25);margin-bottom:4px;">
+        <img src="img/logo.png" alt="Prefeitura de Virgem da Lapa" style="width:140px;height:auto;display:block;">
+      </div>
+      <p style="margin-top:10px;">Painel de Gerenciamento Hotspot</p>
+    </div>
+    <div id="login-alert"></div>
+    <form id="login-form" onsubmit="return false;">
+      <div class="form-group">
+        <label class="form-label">Usuário</label>
+        <input type="text" id="login-user" class="form-control" placeholder="admin" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Senha</label>
+        <input type="password" id="login-pass" class="form-control" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;padding:12px;" id="login-btn" onclick="doLogin()">
+        Entrar
+      </button>
+    </form>
+    <p style="text-align:center;font-size:12px;color:#8a9ab5;margin-top:16px;">
+      🔒 Modo demonstração — dados fictícios
+    </p>
+  </div>
+</div>
+
+<!-- ADMIN APP -->
+<div id="admin-app" class="app-layout hidden">
+
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div style="background:#fff;border-radius:10px;padding:4px 6px 2px;flex-shrink:0;">
+        <img src="img/logo.png" alt="Prefeitura de Virgem da Lapa" style="width:46px;height:auto;display:block;">
+      </div>
+      <div>
+        <div class="logo-name">VIRGEM DA LAPA</div>
+        <div class="logo-sub">Painel Hotspot</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Principal</div>
+      <a class="nav-item active" onclick="navigate('dashboard')"><span class="nav-icon">📊</span> Dashboard</a>
+      <a class="nav-item" onclick="navigate('leads')"><span class="nav-icon">👥</span> Leads Captados</a>
+      <a class="nav-item" onclick="navigate('sessions')"><span class="nav-icon">🔗</span> Sessões Ativas</a>
+      <div class="nav-section">Configurações</div>
+      <a class="nav-item" onclick="navigate('portal-settings')"><span class="nav-icon">🎨</span> Portal Wi-Fi</a>
+      <a class="nav-item" onclick="navigate('mikrotik-settings')"><span class="nav-icon">🔧</span> MikroTik</a>
+      <a class="nav-item" onclick="navigate('zenvia-settings')"><span class="nav-icon">💬</span> Zenvia SMS</a>
+      <a class="nav-item" onclick="navigate('account-settings')"><span class="nav-icon">🔐</span> Minha Conta</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="admin-badge">
+        <div class="admin-avatar" id="admin-avatar">A</div>
+        <div class="admin-info">
+          <div class="admin-name" id="admin-name-display">Admin</div>
+          <div class="admin-role">Administrador</div>
+        </div>
+      </div>
+      <button class="btn btn-outline" style="width:100%;justify-content:center;" onclick="logout()">🚪 Sair</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+        <h1 class="page-title" id="topbar-title">Dashboard</h1>
+      </div>
+      <div class="topbar-actions">
+        <a href="../" class="btn btn-outline btn-sm">🌐 Ver Portal</a>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- DASHBOARD -->
+      <div id="page-dashboard" class="page active">
+        <div id="dashboard-alert"></div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon green">👥</div>
+            <div><div class="stat-number" id="stat-total">—</div><div class="stat-label">Total de Leads</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon blue">📅</div>
+            <div><div class="stat-number" id="stat-today">—</div><div class="stat-label">Leads Hoje</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple">📆</div>
+            <div><div class="stat-number" id="stat-month">—</div><div class="stat-label">Este Mês</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon orange">🔗</div>
+            <div><div class="stat-number" id="stat-sessions">—</div><div class="stat-label">Total Sessões</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>📈 Leads nos últimos 7 dias</h3></div>
+          <div class="card-body"><div class="chart-container"><canvas id="leadsChart"></canvas></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3>🕑 Últimos leads captados</h3>
+            <button class="btn btn-outline btn-sm" onclick="navigate('leads')">Ver todos →</button>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Nome</th><th>Telefone</th><th>Data</th><th>MAC</th></tr></thead>
+              <tbody id="recent-leads-body"><tr><td colspan="4" class="loading"><div class="spinner"></div></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEADS -->
+      <div id="page-leads" class="page">
+        <div class="card">
+          <div class="card-header">
+            <h3>👥 Leads Captados</h3>
+            <button class="btn btn-outline btn-sm" onclick="exportLeads()">⬇ Exportar CSV</button>
+          </div>
+          <div class="card-body" style="padding-bottom:0;">
+            <div class="filter-bar" style="margin-bottom:16px;">
+              <input type="text" class="form-control" id="search-leads" placeholder="🔍 Buscar nome, telefone ou e-mail..." oninput="debounceSearch()">
+              <input type="date" class="form-control" id="filter-start" style="max-width:160px;" onchange="loadLeads()">
+              <input type="date" class="form-control" id="filter-end" style="max-width:160px;" onchange="loadLeads()">
+              <button class="btn btn-outline btn-sm" onclick="clearFilters()">Limpar</button>
+            </div>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>#</th><th>Nome</th><th>Telefone</th><th>E-mail</th><th>MAC</th><th>Data</th><th></th></tr></thead>
+              <tbody id="leads-body"><tr><td colspan="7" class="loading"><div class="spinner"></div></td></tr></tbody>
+            </table>
+          </div>
+          <div class="pagination" id="leads-pagination">
+            <span id="pagination-info"></span>
+            <div class="pagination-btns">
+              <button class="btn btn-outline btn-sm" id="btn-prev" onclick="changePage(-1)">← Anterior</button>
+              <button class="btn btn-outline btn-sm" id="btn-next" onclick="changePage(1)">Próximo →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SESSIONS -->
+      <div id="page-sessions" class="page">
+        <div class="card">
+          <div class="card-header">
+            <h3>🔗 Sessões</h3>
+            <button class="btn btn-outline btn-sm" onclick="loadSessions()">🔄 Atualizar</button>
+          </div>
+          <div class="card-body">
+            <h4 style="font-size:14px;color:#8a9ab5;margin-bottom:12px;">SESSÕES ATIVAS NO MIKROTIK</h4>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Usuário</th><th>MAC</th><th>IP</th><th>Tempo</th><th></th></tr></thead>
+                <tbody id="active-sessions-body"><tr><td colspan="5" class="loading"><div class="spinner"></div></td></tr></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card-body" style="border-top:1px solid var(--card-border);">
+            <h4 style="font-size:14px;color:#8a9ab5;margin-bottom:12px;">HISTÓRICO DE SESSÕES</h4>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Nome</th><th>Telefone</th><th>MAC</th><th>IP</th><th>Início</th></tr></thead>
+                <tbody id="sessions-history-body"><tr><td colspan="5" class="loading"><div class="spinner"></div></td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PORTAL SETTINGS -->
+      <div id="page-portal-settings" class="page">
+        <div class="card">
+          <div class="card-header"><h3>🎨 Configurações do Portal Wi-Fi</h3></div>
+          <div class="card-body">
+            <div id="portal-settings-alert"></div>
+            <form onsubmit="return false;">
+              <div class="form-group">
+                <label class="form-label">Título do Portal</label>
+                <input type="text" class="form-control" id="setting-hotspot_title">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Subtítulo</label>
+                <input type="text" class="form-control" id="setting-hotspot_subtitle">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Tempo de acesso grátis (minutos)</label>
+                  <input type="number" class="form-control" id="setting-hotspot_free_time" min="1" max="1440">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Validade do código OTP (minutos)</label>
+                  <input type="number" class="form-control" id="setting-otp_expiry_minutes" min="1" max="30">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Solicitar nome</label>
+                  <select class="form-control" id="setting-require_name">
+                    <option value="1">Sim</option>
+                    <option value="0">Não</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Solicitar e-mail</label>
+                  <select class="form-control" id="setting-require_email">
+                    <option value="0">Não</option>
+                    <option value="1">Sim (opcional)</option>
+                  </select>
+                </div>
+              </div>
+              <button class="btn btn-primary" onclick="saveSettings('portal-settings', ['hotspot_title','hotspot_subtitle','hotspot_free_time','otp_expiry_minutes','require_name','require_email'])">
+                💾 Salvar Configurações
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- MIKROTIK SETTINGS -->
+      <div id="page-mikrotik-settings" class="page">
+        <div class="card">
+          <div class="card-header">
+            <h3>🔧 Configurações MikroTik</h3>
+            <button class="btn btn-outline btn-sm" onclick="testMikrotik()">🔌 Testar Conexão</button>
+          </div>
+          <div class="card-body">
+            <div id="mikrotik-alert"></div>
+            <form onsubmit="return false;">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Endereço IP do MikroTik</label>
+                  <input type="text" class="form-control" id="setting-mikrotik_host" placeholder="192.168.88.1">
+                  <span class="form-hint">IP do roteador na rede local</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Porta API</label>
+                  <input type="number" class="form-control" id="setting-mikrotik_port" placeholder="8728">
+                  <span class="form-hint">Padrão: 8728</span>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Usuário</label>
+                  <input type="text" class="form-control" id="setting-mikrotik_user" placeholder="admin">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Senha</label>
+                  <input type="password" class="form-control" id="setting-mikrotik_password" placeholder="••••••••">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nome do Servidor Hotspot</label>
+                <input type="text" class="form-control" id="setting-mikrotik_hotspot_server" placeholder="hotspot1">
+                <span class="form-hint">Nome em IP → Hotspot → Servers</span>
+              </div>
+              <button class="btn btn-primary" onclick="saveSettings('mikrotik', ['mikrotik_host','mikrotik_port','mikrotik_user','mikrotik_password','mikrotik_hotspot_server'])">
+                💾 Salvar
+              </button>
+            </form>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>📋 Instruções de Configuração</h3></div>
+          <div class="card-body">
+            <p style="font-size:14px;color:#8a9ab5;line-height:1.8;">
+              <strong>1. Ativar API:</strong> IP → Services → api (porta 8728)<br>
+              <strong>2. Criar usuário API:</strong> System → Users → permissão write<br>
+              <strong>3. Configurar Hotspot:</strong> IP → Hotspot → setup<br>
+              <strong>4. Login Page:</strong> Server Profiles → Login Page:<br>
+              <code style="background:#f0f3f7;padding:4px 8px;border-radius:4px;font-size:12px;">http://[SEU_SERVIDOR]:3000/?mac=$(mac)&amp;ip=$(ip)&amp;dst=$(link-orig)</code>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ZENVIA -->
+      <div id="page-zenvia-settings" class="page">
+        <div class="card">
+          <div class="card-header"><h3>💬 Configurações Zenvia SMS</h3></div>
+          <div class="card-body">
+            <div id="zenvia-alert"></div>
+            <form onsubmit="return false;">
+              <div class="form-group">
+                <label class="form-label">Token de API Zenvia</label>
+                <input type="text" class="form-control" id="setting-zenvia_token" placeholder="Seu token da API Zenvia">
+                <span class="form-hint">app.zenvia.com → API → Tokens</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Remetente (From)</label>
+                <input type="text" class="form-control" id="setting-zenvia_from" placeholder="VirgemLapa" maxlength="11">
+                <span class="form-hint">Máx. 11 chars, sem espaços</span>
+              </div>
+              <button class="btn btn-primary" onclick="saveSettings('zenvia', ['zenvia_token','zenvia_from'])">💾 Salvar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACCOUNT -->
+      <div id="page-account-settings" class="page">
+        <div class="card">
+          <div class="card-header"><h3>🔐 Alterar Senha</h3></div>
+          <div class="card-body">
+            <div id="account-alert"></div>
+            <form onsubmit="return false;" style="max-width:400px;">
+              <div class="form-group">
+                <label class="form-label">Senha atual</label>
+                <input type="password" class="form-control" id="current-password" placeholder="••••••••">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nova senha</label>
+                <input type="password" class="form-control" id="new-password" placeholder="••••••••">
+                <span class="form-hint">Mínimo 6 caracteres</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Confirmar nova senha</label>
+                <input type="password" class="form-control" id="confirm-password" placeholder="••••••••">
+              </div>
+              <button class="btn btn-primary" onclick="changePassword()">🔒 Alterar Senha</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="js/admin.js"></script>
+</body>
+</html>
