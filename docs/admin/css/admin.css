@@ -1,14 +1,15 @@
 :root {
-  --primary: #2f9e5c;
-  --primary-dark: #17532c;
-  --primary-light: #eafaf0;
-  --primary-border: #bfead0;
-  --gradient: linear-gradient(135deg, #17532c 0%, #2f9e5c 100%);
+  /* Paleta "Wi-Fi de Todos" — laranja da arte + azul-marinho da logo */
+  --primary: #e07a0b;
+  --primary-dark: #b85f04;
+  --primary-light: #fff3e4;
+  --primary-border: #ffd9ac;
+  --gradient: linear-gradient(135deg, #e07a0b 0%, #ff9e33 100%);
   --white: #ffffff;
   --bg: #f0f2f5;
-  --sidebar-bg: #0f2417;
-  --sidebar-text: #9db5a8;
-  --sidebar-active: #eab308;
+  --sidebar-bg: #062a4d;
+  --sidebar-text: #9db2c9;
+  --sidebar-active: #ff9e33;
   --card-border: #e8ecf0;
   --text: #1e2d3d;
   --text-muted: #8a9ab5;
@@ -91,9 +92,9 @@ body {
 .nav-item:hover { background: rgba(255,255,255,0.05); color: white; }
 
 .nav-item.active {
-  background: rgba(234,179,8,0.15);
-  color: #fbbf24;
-  border-right: 3px solid #eab308;
+  background: rgba(255,158,51,0.15);
+  color: #ffb25c;
+  border-right: 3px solid var(--sidebar-active);
 }
 
 .nav-icon { font-size: 18px; width: 22px; text-align: center; }
@@ -255,7 +256,7 @@ tbody td { padding: 12px 16px; color: var(--text); }
 
 .btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 6px; }
 
-.btn-primary { background: var(--gradient); color: white; box-shadow: 0 2px 8px rgba(23,83,44,0.3); }
+.btn-primary { background: var(--gradient); color: #062a4d; box-shadow: 0 2px 8px rgba(224,122,11,0.35); }
 .btn-primary:hover { background: linear-gradient(135deg, #123f21 0%, #279154 100%); }
 
 .btn-danger { background: #fef2f2; color: #b91c1c; }
@@ -342,7 +343,7 @@ tbody td { padding: 12px 16px; color: var(--text); }
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(160deg, #0b2e17 0%, #17532c 50%, #2f9e5c 100%);
+  background: linear-gradient(160deg, #062a4d 0%, #0a3c6b 45%, #ff9e33 100%);
 }
 
 .login-card {

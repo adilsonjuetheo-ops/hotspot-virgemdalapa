@@ -109,8 +109,8 @@ function renderChart(dailyData) {
       datasets: [{
         label: 'Leads',
         data: values,
-        backgroundColor: 'rgba(47,158,92,0.15)',
-        borderColor: '#2f9e5c',
+        backgroundColor: 'rgba(255,158,51,0.18)',
+        borderColor: '#e07a0b',
         borderWidth: 2,
         borderRadius: 6,
         borderSkipped: false

@@ -1,19 +1,22 @@
 :root {
-  --primary: #2f9e5c;
-  --primary-dark: #17532c;
-  --primary-light: rgba(47, 158, 92, 0.18);
-  --primary-border: rgba(47, 158, 92, 0.45);
-  --gradient: linear-gradient(135deg, #17532c 0%, #2f9e5c 100%);
-  --accent: #eab308;
-  --accent-soft: #fbbf24;
+  /* Paleta "Wi-Fi de Todos" — laranja da arte, um tom acima do #f38512 */
+  --primary: #ff9e33;
+  --primary-dark: #e07a0b;
+  --primary-light: rgba(255, 158, 51, 0.18);
+  --primary-border: rgba(255, 158, 51, 0.45);
+  --gradient: linear-gradient(135deg, #e07a0b 0%, #ff9e33 100%);
+  --accent: #ffb25c;
+  --accent-soft: #ffc989;
+  --navy: #043867;
+  --navy-deep: #062a4d;
   --white: #ffffff;
   --input-bg: rgba(255, 255, 255, 0.10);
   --input-border: rgba(255, 255, 255, 0.22);
-  --input-focus-border: rgba(250, 204, 21, 0.75);
-  --card-bg: rgba(8, 36, 20, 0.55);
+  --input-focus-border: rgba(255, 158, 51, 0.75);
+  --card-bg: rgba(4, 30, 55, 0.55);
   --card-border: rgba(255, 255, 255, 0.12);
   --text-main: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.65);
+  --text-secondary: rgba(255, 255, 255, 0.68);
   --shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
   --radius: 20px;
 }
@@ -22,7 +25,7 @@
 
 body {
   font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: linear-gradient(160deg, #0b2e17 0%, #17532c 50%, #081f11 100%);
+  background: linear-gradient(160deg, #062a4d 0%, #0a3c6b 50%, #04203a 100%);
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -46,43 +49,26 @@ body {
   overflow: hidden;
 }
 
-/* Header */
+/* Header — arte oficial da campanha "Wi-Fi de Todos" */
 .card-header {
-  padding: 36px 24px 28px;
+  padding: 0;
   text-align: center;
 }
 
-.logo-area {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-}
-
-.logo-box {
-  background: #ffffff;
-  border-radius: 22px;
-  padding: 14px 22px 10px;
-  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.3);
-  animation: pulse 2.5s ease-in-out infinite;
-  display: inline-block;
-}
-
-.brand-logo {
-  width: 160px;
-  height: auto;
+.brand-art {
   display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
 }
 
 .logo-slogan {
-  font-size: 12px;
-  color: var(--text-secondary);
-  margin-top: 6px;
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); box-shadow: 0 6px 28px rgba(0, 0, 0, 0.3); }
-  50% { transform: scale(1.03); box-shadow: 0 10px 36px rgba(234, 179, 8, 0.4); }
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent-soft);
+  padding: 12px 20px 14px;
+  background: rgba(255, 158, 51, 0.10);
 }
 
 /* Divider */
@@ -145,7 +131,7 @@ body {
 .form-control:focus {
   border-color: var(--input-focus-border);
   background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.2);
+  box-shadow: 0 0 0 3px rgba(255, 158, 51, 0.22);
 }
 
 /* Phone input */
@@ -162,7 +148,7 @@ body {
 .phone-wrapper:focus-within {
   border-color: var(--input-focus-border);
   background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.2);
+  box-shadow: 0 0 0 3px rgba(255, 158, 51, 0.22);
 }
 
 .phone-prefix {
@@ -228,14 +214,14 @@ body {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #17532c 0%, #2f9e5c 100%);
-  color: white;
-  box-shadow: 0 4px 18px rgba(23, 83, 44, 0.5);
+  background: var(--gradient);
+  color: var(--navy-deep);
+  box-shadow: 0 4px 18px rgba(224, 122, 11, 0.45);
 }
 
 .btn-primary:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(47, 158, 92, 0.55);
+  box-shadow: 0 6px 24px rgba(255, 158, 51, 0.55);
 }
 
 .btn-primary:active:not(:disabled) {
@@ -250,12 +236,12 @@ body {
 .btn-outline {
   background: transparent;
   color: var(--accent-soft);
-  border: 1.5px solid rgba(251, 191, 36, 0.5);
+  border: 1.5px solid rgba(255, 178, 92, 0.5);
   margin-top: 10px;
 }
 
 .btn-outline:hover {
-  background: rgba(251, 191, 36, 0.1);
+  background: rgba(255, 178, 92, 0.12);
   border-color: var(--accent-soft);
 }
 
@@ -298,9 +284,9 @@ body {
 }
 
 .alert-info {
-  background: rgba(234, 179, 8, 0.15);
-  color: #fde68a;
-  border: 1px solid rgba(234, 179, 8, 0.35);
+  background: rgba(255, 158, 51, 0.15);
+  color: #ffd7a8;
+  border: 1px solid rgba(255, 158, 51, 0.35);
 }
 
 /* Footer */
@@ -337,8 +323,8 @@ body {
 }
 
 .access-info {
-  background: rgba(234, 179, 8, 0.12);
-  border: 1.5px solid rgba(251, 191, 36, 0.35);
+  background: rgba(255, 158, 51, 0.12);
+  border: 1.5px solid rgba(255, 178, 92, 0.35);
   border-radius: 14px;
   padding: 18px;
   text-align: center;
@@ -404,9 +390,9 @@ body {
 }
 
 .step-dot.active {
-  background: var(--accent);
+  background: var(--primary);
   transform: scale(1.4);
-  box-shadow: 0 0 8px rgba(234, 179, 8, 0.6);
+  box-shadow: 0 0 8px rgba(255, 158, 51, 0.6);
 }
 
 .step-dot.done {
@@ -420,7 +406,7 @@ body {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(4, 15, 8, 0.75);
+  background: rgba(3, 18, 33, 0.78);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -450,14 +436,14 @@ body {
   border-bottom: 1px solid #e8ecf0;
 }
 
-.modal-header h3 { font-size: 17px; color: #12351f; }
+.modal-header h3 { font-size: 17px; color: var(--navy); }
 
 .modal-close {
   border: none;
   background: none;
   font-size: 26px;
   line-height: 1;
-  color: #8aa593;
+  color: #8296ab;
   cursor: pointer;
   padding: 0 4px;
 }
@@ -467,11 +453,11 @@ body {
   overflow-y: auto;
   font-size: 13.5px;
   line-height: 1.65;
-  color: #33403a;
+  color: #333d47;
 }
 
 .modal-body p { margin-bottom: 12px; }
-.terms-updated { font-size: 12px; color: #8aa593; margin-top: 4px; }
+.terms-updated { font-size: 12px; color: #8296ab; margin-top: 4px; }
 
 .modal-footer {
   padding: 12px 20px 18px;
