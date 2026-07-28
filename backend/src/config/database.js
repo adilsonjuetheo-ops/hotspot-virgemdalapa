@@ -103,7 +103,7 @@ function initDatabase() {
   insertSetting.run('require_name', '1');
   insertSetting.run('require_email', '0');
   insertSetting.run('otp_enabled', process.env.OTP_ENABLED === '1' ? '1' : '0');
-  insertSetting.run('redirect_url', 'https://www.instagram.com/prefeituradevirgemdalapa/');
+  insertSetting.run('redirect_url', 'https://www.instagram.com/prefeituradevirgemdalapa?igsh=MXVwMXdmcjF0ZXdoYQ==');
   insertSetting.run('rate_limit_down', '5');
   insertSetting.run('rate_limit_up', '5');
   insertSetting.run('mac_cookie_days', '3');

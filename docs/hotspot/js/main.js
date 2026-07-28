@@ -1,7 +1,9 @@
 const API = '';
-const INSTAGRAM_URL = 'https://www.instagram.com/prefeituradevirgemdalapa/';
+const INSTAGRAM_URL = 'https://www.instagram.com/prefeituradevirgemdalapa?igsh=MXVwMXdmcjF0ZXdoYQ==';
 const IS_DEMO = !window.location.hostname.match(/^\d+\.\d+\.\d+\.\d+$/) && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
 
+// Destino pós-login. O painel admin pode sobrescrever via setting redirect_url.
+let redirectUrl = INSTAGRAM_URL;
 let urlParams = {};
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -31,6 +33,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
       if (settings.require_email === '1') {
         document.getElementById('email-group').classList.remove('hidden');
+      }
+      if (settings.redirect_url) {
+        redirectUrl = settings.redirect_url;
+        const igBtn = document.getElementById('btn-instagram');
+        if (igBtn) igBtn.href = settings.redirect_url;
       }
     } catch (_) {}
   }
@@ -103,13 +110,13 @@ async function connectWifi() {
         form.action = urlParams.linkLogin;
         addHidden(form, 'username', data.username);
         addHidden(form, 'password', data.password);
-        addHidden(form, 'dst', INSTAGRAM_URL);
+        addHidden(form, 'dst', redirectUrl);
         document.body.appendChild(form);
         form.submit();
       }, 2000);
     } else {
       // Modo demo / acesso direto: redireciona para o Instagram após a tela de sucesso
-      setTimeout(() => { window.location.href = INSTAGRAM_URL; }, 3000);
+      setTimeout(() => { window.location.href = redirectUrl; }, 3000);
     }
   } catch (err) {
     showAlert('error', err.message);
