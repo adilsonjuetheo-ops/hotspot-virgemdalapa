@@ -1,5 +1,5 @@
 const API = '';
-const INSTAGRAM_URL = 'https://www.instagram.com/prefeituradevirgemdalapa?igsh=MXVwMXdmcjF0ZXdoYQ==';
+const INSTAGRAM_URL = 'https://www.instagram.com/prefeituradevirgemdalapa/';
 const IS_DEMO = !window.location.hostname.match(/^\d+\.\d+\.\d+\.\d+$/) && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
 
 // Destino pós-login. O painel admin pode sobrescrever via setting redirect_url.
